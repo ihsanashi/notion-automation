@@ -19,7 +19,7 @@ app.get('/', (req: Request, res: Response) => {
 app.post('/webhook', async (req: Request, res: Response) => {
   try {
     const content = req.body;
-    console.log('content: ', content);
+    console.log('req: ', req);
     // const pageId = content.id;
     // const pageUrl = content.url;
     // const itemName = content.properties.Title.title[0].plain_text;
