@@ -18,18 +18,16 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/webhook', async (req: Request, res: Response) => {
   try {
-    const content = req.body;
-    console.log('req: ', req);
-    console.log('res: ', res);
-    // const pageId = content.id;
-    // const pageUrl = content.url;
-    // const itemName = content.properties.Title.title[0].plain_text;
+    const data = req.body.data;
+    const pageId = data.id;
+    const pageUrl = data.url;
+    const itemName = data.properties.Name.title[0].plain_text;
 
-    // const message = `Hey Ihsan, I'm interested in the item ${itemName}.\n\nLink on Notion: ${pageUrl}`;
-    // const encodedMessage = encodeURIComponent(message);
-    // const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    const message = `Hey Ihsan, I'm interested in the item ${itemName}.\n\nLink on Notion: ${pageUrl}`;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-    // console.log('whatsappLink: ', whatsappLink);
+    console.log('whatsappLink: ', whatsappLink);
 
     // await notion.pages.update({
     //   page_id: pageId,
