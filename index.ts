@@ -93,20 +93,15 @@ app.post('/chat-links', async (req: Request, res: Response) => {
       `Updated page with name of ${itemName} and id ${pageId} with the WhatsApp and Telegram links.`
     );
 
-    // add comment in page
+    const commentText =
+      'The WhatsApp and Telegram links were successfully created.';
     const commentResponse = await notion.comments.create({
       parent: { page_id: pageId },
       rich_text: [
         {
           type: 'text',
           text: {
-            content: `WhatsApp link successfully added: ${whatsappLink}`,
-          },
-        },
-        {
-          type: 'text',
-          text: {
-            content: `Telegram link successfully added: ${telegramLink}`,
+            content: commentText,
           },
         },
       ],
