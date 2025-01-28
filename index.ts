@@ -13,7 +13,6 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const phoneNumber = process.env.WHATSAPP_PHONE_NUMBER;
 const telegramUsername = process.env.TELEGRAM_USERNAME;
-const filesMediaLinksRef = 'Files, media & links';
 const whatsappBaseUrl = 'https://wa.me/';
 const telegramBaseUrl = 'https://t.me/';
 
@@ -64,7 +63,7 @@ app.post('/chat-links', async (req: Request, res: Response) => {
     const telegramLink = `https://t.me/${telegramUsername}?text=${encodedMessage}`;
     logger.info(`Generated Telegram link: ${telegramLink}`);
 
-    const linksProperty = data.properties[filesMediaLinksRef];
+    const linksProperty = data.properties['Files, media & links'];
 
     const updatedFiles: Array<{
       name: string;
@@ -90,7 +89,7 @@ app.post('/chat-links', async (req: Request, res: Response) => {
     await notion.pages.update({
       page_id: pageId,
       properties: {
-        filesMediaLinksRef: {
+        'Files, media & links': {
           files: updatedFiles,
         },
       },
