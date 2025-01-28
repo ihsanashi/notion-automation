@@ -41,7 +41,7 @@ app.post('/chat-links', async (req: Request, res: Response) => {
     const publicUrl = data.public_url;
     const itemName = data.properties.Name.title[0].plain_text;
 
-    const message = `Hey Ihsan, I'm interested in the item "${itemName}.\n\nLink on Notion: ${publicUrl}"`;
+    const message = `Hey Ihsan, I'm interested in the item "${itemName}".\n\nLink on Notion: ${publicUrl}`;
     const encodedMessage = encodeURIComponent(message);
 
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -64,11 +64,11 @@ app.post('/chat-links', async (req: Request, res: Response) => {
 
     updatedFiles.push(
       {
-        name: 'WhatsApp link',
+        name: 'Chat on WhatsApp',
         external: { url: whatsappLink },
       },
       {
-        name: 'Telegram link',
+        name: 'Chat on Telegram',
         external: { url: telegramLink },
       }
     );
