@@ -2,6 +2,8 @@ import express, { Express, Request, Response } from 'express';
 import { Client } from '@notionhq/client';
 import dotenv from 'dotenv';
 
+import logger from './logger';
+
 dotenv.config();
 
 const app: Express = express();
@@ -20,6 +22,8 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/webhook', async (req: Request, res: Response) => {
   try {
+    logger.info('Received webhook: ', JSON.stringify(req.body));
+
     const data = req.body.data;
     const pageId = data.id;
     const pageUrl = data.url;
@@ -29,17 +33,17 @@ app.post('/webhook', async (req: Request, res: Response) => {
     const encodedMessage = encodeURIComponent(message);
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-    console.log('whatsappLink: ', whatsappLink);
+    logger.info(`Generated WhatsApp link: ${whatsappLink}`);
 
     // await notion.pages.update({
     //   page_id: pageId,
     // });
   } catch (error) {
-    console.error('Error processing webhook: ', error);
+    logger.error('Error processing webhook: ', error);
     res.status(500).json({ error: 'Failed to process webhook.' });
   }
 });
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running on port ${port}`);
+  logger.info(`[server]: Server is running on port ${port}`);
 });
