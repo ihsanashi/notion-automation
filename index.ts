@@ -38,10 +38,10 @@ app.post('/chat-links', async (req: Request, res: Response) => {
 
     const data = req.body.data;
     const pageId = data.id;
-    const pageUrl = data.url;
+    const publicUrl = data.public_url;
     const itemName = data.properties.Name.title[0].plain_text;
 
-    const message = `Hey Ihsan, I'm interested in the item "${itemName}.\n\nLink on Notion: ${pageUrl}"`;
+    const message = `Hey Ihsan, I'm interested in the item "${itemName}.\n\nLink on Notion: ${publicUrl}"`;
     const encodedMessage = encodeURIComponent(message);
 
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
