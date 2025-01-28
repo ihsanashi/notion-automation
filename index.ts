@@ -29,19 +29,6 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express v5.0 + TypeScript server');
 });
 
-app.post('/go-public', async (req: Request, res: Response) => {
-  try {
-    logger.info(
-      'Go public webhook triggered. Payload:\n',
-      JSON.stringify(req.body)
-    );
-
-    const data = req.body.data;
-  } catch (error) {
-    logger.error('Error processing webhook: ', error);
-  }
-});
-
 app.post('/chat-links', async (req: Request, res: Response) => {
   try {
     logger.info(
