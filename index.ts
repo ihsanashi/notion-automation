@@ -73,7 +73,7 @@ app.post('/chat-links', async (req: Request, res: Response) => {
       }
     );
 
-    await notion.pages.update({
+    const updatePageResponse = await notion.pages.update({
       page_id: pageId,
       properties: {
         'Files, media & links': {
@@ -81,6 +81,52 @@ app.post('/chat-links', async (req: Request, res: Response) => {
         },
       },
     });
+
+    if (!updatePageResponse.id) {
+      logger.error(
+        `Failed to update the page with a name of ${itemName} and id ${pageId}.`
+      );
+      res.status(500).json({ error: 'Failed to update the page in Notion.' });
+    }
+
+    logger.info(
+      `Updated page with name of ${itemName} and id ${pageId} with the WhatsApp and Telegram links.`
+    );
+
+    // add comment in page
+    const commentResponse = await notion.comments.create({
+      parent: { page_id: pageId },
+      rich_text: [
+        {
+          type: 'text',
+          text: {
+            content: `WhatsApp link successfully added: ${whatsappLink}`,
+          },
+        },
+        {
+          type: 'text',
+          text: {
+            content: `Telegram link successfully added: ${telegramLink}`,
+          },
+        },
+      ],
+    });
+
+    if (!commentResponse.id) {
+      logger.error(
+        `Failed to add comment(s) to the page of name ${itemName} and id ${pageId}`
+      );
+      res.status(500).json({ error: `Failed to add comment(s) in Notion.` });
+    }
+
+    logger.info(
+      `Comment(s) added to the page with name of ${itemName} and id ${pageId}.`
+    );
+    res
+      .status(200)
+      .send(
+        `Webhook processed, page updated, and comment(s) added. Page name ${itemName} and id ${pageId}.`
+      );
   } catch (error) {
     logger.error('Error processing webhook: ', error);
     res.status(500).json({ error: 'Failed to process webhook.' });
