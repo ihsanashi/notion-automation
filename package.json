@@ -1,8 +1,9 @@
 {
-  "name": "royal-regent-available-items-webhook",
+  "name": "notion-automation",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
@@ -10,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ahmad Ihsan",
   "license": "ISC",
   "dependencies": {
     "@notionhq/client": "^2.2.15",
