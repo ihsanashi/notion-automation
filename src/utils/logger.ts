@@ -9,7 +9,7 @@ const logFormat = winston.format.combine(
   })
 );
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   level: 'info',
   format: logFormat,
   transports: [
@@ -17,5 +17,3 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'logs/app.log' }),
   ],
 });
-
-export default logger;
