@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "tsx watch src",
-    "migrate": "node-pg-migrate",
+    "migrate": "node-pg-migrate -m './src/migrations' --tsconfig tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
