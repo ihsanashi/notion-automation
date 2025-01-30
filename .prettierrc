@@ -1,4 +1,23 @@
 {
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "bracketSameLine": true,
+  "endOfLine": "lf",
+  "importOrder": [
+    "^[a-zA-Z]",
+    "^\\w",
+    "^@notionhq",
+    "^@controllers/(.*)$",
+    "^@routes/(.*)$",
+    "^@utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "printWidth": 120,
   "singleQuote": true,
-  "trailingComma": "es5"
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "semi": true
 }
