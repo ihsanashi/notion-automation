@@ -7,8 +7,11 @@
     "^[a-zA-Z]",
     "^\\w",
     "^@notionhq",
+    "^@config/(.*)$",
     "^@controllers/(.*)$",
+    "^@models/(.*)$",
     "^@routes/(.*)$",
+    "^@services/(.*)$",
     "^@utils/(.*)$",
     "^[./]"
   ],
