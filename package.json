@@ -2,6 +2,7 @@
   "name": "notion-automation",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
