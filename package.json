@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "node -r tsconfig-paths/register dist/index.js",
     "dev": "tsx watch src",
     "migrate": "node-pg-migrate -m './src/migrations' --tsconfig tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
