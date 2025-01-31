@@ -5,8 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node -r tsconfig-paths/register dist/index.js",
+    "build": "pkgroll",
+    "start": "tsx dist/index.js",
     "dev": "tsx watch src",
     "migrate": "node-pg-migrate -m './src/migrations' --tsconfig tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,16 +25,14 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/express": "^5.0.0",
     "@types/node": "^22.10.10",
-    "@types/pg": "^8.11.11",
     "concurrently": "^9.1.2",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^15.14.0",
     "node-pg-migrate": "^7.9.0",
-    "nodemon": "^3.1.9",
+    "pkgroll": "^2.6.1",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
