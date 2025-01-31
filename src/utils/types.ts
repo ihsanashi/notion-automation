@@ -1,8 +1,9 @@
 import {
   FileBlockObjectResponse,
   PageObjectResponse,
-  PersonUserObjectResponse,
+  PartialUserObjectResponse,
   RichTextItemResponse,
+  UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 
 type StringRequest = string;
@@ -29,7 +30,7 @@ export type TitleType = {
 
 export type PeopleType = {
   type: 'people';
-  people: Array<PersonUserObjectResponse>;
+  people: Array<PartialUserObjectResponse | UserObjectResponse>;
   id: string;
 };
 
