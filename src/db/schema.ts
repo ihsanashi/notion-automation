@@ -11,7 +11,8 @@ export const usersTable = pgTable('users', {
 
 export const platformsTable = pgTable('platforms', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 50 }),
+  name: varchar({ length: 50 }).notNull().default('Platform name'),
+  base_url: varchar({ length: 255 }).notNull().default('https://example.com'),
 });
 
 export const userPlatformsTable = pgTable(
