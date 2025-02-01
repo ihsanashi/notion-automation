@@ -1,6 +1,4 @@
-import { PersonUserObjectResponse, UserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-
-import { PersonModel } from '@models/person';
+import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { WebhookPayload } from '@utils/types';
 
@@ -28,6 +26,6 @@ export class ChatService {
       return [];
     }
 
-    return PersonModel.getMatchedPeople(notionUserEmails);
+    // return PersonModel.getMatchedPeople(notionUserEmails);
   }
 }
