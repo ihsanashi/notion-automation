@@ -21,7 +21,7 @@ export class ChatController {
 
       await NotionWebhook.insertContactMethods(req.body);
 
-      logger.info('Webhook processed successfully');
+      logger.info('Webhook processed successfully.');
       res.status(200).json({ success: true, message: 'Webhook processed successfully.' });
     } catch (error) {
       logger.error('Error in ChatController', error);
