@@ -27,7 +27,7 @@ export class NotionWebhook {
             },
           },
         });
-        logger.info(`Contact methods for page with name ${itemName} and id ${pageId} are cleared.`);
+        logger.info(`Contact methods for page with name "${itemName}" and id ${pageId} are cleared.`);
         return;
       }
 
