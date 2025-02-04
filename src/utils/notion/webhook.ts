@@ -29,10 +29,12 @@ export class NotionWebhook {
         const notionLink = `Link on Notion: ${public_url}`;
         const message = `${greeting}, ${body}.\n\n${notionLink}`;
         const encodedMessage = encodeURIComponent(message);
+        const linkTitle = `Chat with ${obj.nickname || obj.name} on ${obj.platform_name}`;
+        const chat_url = `${obj.base_url}/${obj.identifier}?text=${encodedMessage}`;
 
         return {
-          name: `Chat on ${obj.platform_name}`,
-          external: { url: `${obj.base_url}/${obj.identifier}?text=${encodedMessage}` },
+          name: linkTitle,
+          external: { url: chat_url },
         };
       });
 
