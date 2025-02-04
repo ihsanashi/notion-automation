@@ -32,12 +32,11 @@ export class NotionWebhook {
       }
 
       const contactMethods = users.map((obj) => {
-        const greeting = `Hey ${obj.nickname}`;
-        const body = `${itemName ? `I'm interested in the item "${itemName}"` : "I'm interested in an item."}`;
-        const notionLink = `Link on Notion: ${public_url}`;
-        const message = `${greeting}, ${body}.\n\n${notionLink}`;
+        const name = obj.nickname || obj.name;
+        const message = `Hey ${name}, I am interested in this item.\n\n${itemName}\n\nLink on Notion: ${public_url}`;
         const encodedMessage = encodeURIComponent(message);
-        const linkTitle = `${obj.nickname || obj.name}@${obj.platform_name}`;
+
+        const linkTitle = `${name}@${obj.platform_name}`;
         const chatUrl = `${obj.base_url}/${obj.identifier}?text=${encodedMessage}`;
 
         return {
