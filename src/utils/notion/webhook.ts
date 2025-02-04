@@ -33,7 +33,7 @@ export class NotionWebhook {
 
       const contactMethods = users.map((obj) => {
         const name = obj.nickname || obj.name;
-        const message = `Hey ${name}, I am interested in this item.\n\n${itemName}\n\nLink on Notion: ${public_url}`;
+        const message = `Hey ${name}, I am interested in this item.\n\nLink on Notion: ${public_url}`;
         const encodedMessage = encodeURIComponent(message);
 
         const linkTitle = `${name}@${obj.platform_name}`;
