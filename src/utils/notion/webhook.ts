@@ -36,7 +36,7 @@ export class NotionWebhook {
         };
       });
 
-      logger.info(`Contact methods generated for page id ${pageId}, data: ${contactMethods}`);
+      logger.info(`Contact methods generated for page id ${pageId}, data: ${JSON.stringify(contactMethods)}`);
 
       const response = await notion.pages.update({
         page_id: pageId,
