@@ -47,7 +47,7 @@ export class NotionWebhook {
       });
 
       logger.info(
-        `Contact methods generated for page with name ${itemName} and id ${pageId}, data: ${JSON.stringify(contactMethods)}`
+        `Contact methods generated for page with name "${itemName}" and id ${pageId}, data: ${JSON.stringify(contactMethods)}`
       );
 
       const response = await notion.pages.update({
@@ -60,7 +60,7 @@ export class NotionWebhook {
       });
 
       if (!response.id) {
-        logger.error(`Failed to update page with name ${itemName} and id ${pageId}.`);
+        logger.error(`Failed to update page with name "${itemName}" and id ${pageId}.`);
         return;
       }
 
