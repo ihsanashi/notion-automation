@@ -25,7 +25,7 @@ export class ChatController {
       res.status(200).json({ success: true, message: 'Webhook processed successfully.' });
     } catch (error) {
       logger.error('Error in ChatController', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ message: 'Internal server error' });
     }
   }
 }
