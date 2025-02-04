@@ -29,12 +29,12 @@ export class NotionWebhook {
         const notionLink = `Link on Notion: ${public_url}`;
         const message = `${greeting}, ${body}.\n\n${notionLink}`;
         const encodedMessage = encodeURIComponent(message);
-        const linkTitle = `Chat with ${obj.nickname || obj.name} on ${obj.platform_name}`;
-        const chat_url = `${obj.base_url}/${obj.identifier}?text=${encodedMessage}`;
+        const linkTitle = `${obj.nickname || obj.name}@${obj.platform_name}`;
+        const chatUrl = `${obj.base_url}/${obj.identifier}?text=${encodedMessage}`;
 
         return {
           name: linkTitle,
-          external: { url: chat_url },
+          external: { url: chatUrl },
         };
       });
 
@@ -54,7 +54,7 @@ export class NotionWebhook {
         return;
       }
 
-      logger.info(`Updated page with ${itemName} and id ${pageId} with contact method(s).`);
+      logger.info(`Updated page with name ${itemName} and id ${pageId} with contact method(s).`);
     } catch (error) {
       logger.error(`Failed to update page ${pageId}: `, error);
     }
