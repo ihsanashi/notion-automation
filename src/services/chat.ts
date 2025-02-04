@@ -1,9 +1,15 @@
+import 'dotenv/config';
+import { eq, inArray } from 'drizzle-orm';
+import { drizzle } from 'drizzle-orm/node-postgres';
+
 import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+
+import * as schema from '@db/schema';
 
 import { WebhookPayload } from '@utils/types';
 
 export class ChatService {
-  static async getMatchedPeople(payload: WebhookPayload) {
+  static async getMatchedUsers(payload: WebhookPayload) {
     const { data } = payload;
     const { properties } = data;
 
@@ -26,6 +32,21 @@ export class ChatService {
       return [];
     }
 
-    // return PersonModel.getMatchedPeople(notionUserEmails);
+    const db = drizzle(process.env.DATABASE_URL!, { schema });
+    const userContactMethods = await db
+      .select({
+        name: schema.usersTable.name,
+        nickname: schema.usersTable.nickname,
+        email: schema.usersTable.email,
+        platform_name: schema.platformsTable.name,
+        base_url: schema.platformsTable.base_url,
+        identifier: schema.userPlatformsTable.identifier,
+      })
+      .from(schema.usersTable)
+      .leftJoin(schema.userPlatformsTable, eq(schema.usersTable.id, schema.userPlatformsTable.user_id))
+      .leftJoin(schema.platformsTable, eq(schema.userPlatformsTable.platform_id, schema.platformsTable.id))
+      .where(inArray(schema.usersTable.email, notionUserEmails));
+
+    return userContactMethods;
   }
 }
