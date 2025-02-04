@@ -5,6 +5,7 @@ import { NotionWebhook } from '@utils/notion/webhook';
 
 export class DiaryController {
   static async createTodaysTask(req: Request, res: Response) {
+    logger.info('req headers: ', req.headers);
     try {
       await NotionWebhook.createTodaysTask(req);
 
