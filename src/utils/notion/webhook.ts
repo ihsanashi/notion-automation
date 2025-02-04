@@ -72,6 +72,6 @@ export class NotionWebhook {
   }
 
   static async createTodaysTask(req: Request) {
-    logger.info('Req: ', req);
+    logger.info('Req: ', JSON.stringify(req));
   }
 }
