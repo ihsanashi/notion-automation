@@ -14,12 +14,9 @@ export class ChatController {
       const titleProperty = properties['Name'];
       const title = titleProperty.type === 'title' ? titleProperty.title?.[0].plain_text : null;
 
-      const contactPersonsProperty = properties['Contact person(s)'];
-      const contactPersons = contactPersonsProperty.type === 'people' ? contactPersonsProperty.people : [];
-
-      if (!title || contactPersons.length === 0) {
-        logger.info('Title or contact person(s) are empty. Exiting...');
-        res.status(400).json({ message: 'Title or contact person(s) are empty. Exiting...' });
+      if (!title) {
+        logger.info('Title is empty. Exiting...');
+        res.status(400).json({ message: 'Title is empty. Exiting...' });
       }
 
       await NotionWebhook.insertContactMethods(req.body);

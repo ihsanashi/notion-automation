@@ -6,6 +6,7 @@ import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoin
 
 import * as schema from '@db/schema';
 
+import { logger } from '@utils/logger';
 import { WebhookPayload } from '@utils/types';
 
 export class ChatService {
@@ -23,12 +24,18 @@ export class ChatService {
       throw new Error('Invalid contact person format');
     }
 
+    if (contactPersonBlock.people.length === 0) {
+      logger.info('Contact person block is empty.');
+      return [];
+    }
+
     const notionUserEmails = contactPersonBlock.people
       .filter((user): user is PersonUserObjectResponse => user.object === 'user')
       .map((user: PersonUserObjectResponse) => user.person.email)
       .filter((email): email is string => !!email);
 
     if (notionUserEmails.length === 0) {
+      logger.info("Couldn't list out user emails.");
       return [];
     }
 

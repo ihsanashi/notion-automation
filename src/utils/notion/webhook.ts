@@ -19,7 +19,15 @@ export class NotionWebhook {
       const users = await ChatService.getMatchedUsers(payload);
 
       if (users.length === 0) {
-        logger.info('No matching users found. Skipping Notion update.');
+        await notion.pages.update({
+          page_id: pageId,
+          properties: {
+            'Contact method(s)': {
+              files: [],
+            },
+          },
+        });
+        logger.info(`Clear contact methods for page ${pageId}`);
         return;
       }
 
