@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 
 import chatRoutes from '@routes/chat';
+import diaryRoutes from '@routes/diary';
 
 import { logger } from '@utils/logger';
 
@@ -17,6 +18,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/chat', chatRoutes);
+app.use('/diary', diaryRoutes);
 
 app.listen(port, () => {
   logger.info(`[server]: Server is running on port ${port}`);
