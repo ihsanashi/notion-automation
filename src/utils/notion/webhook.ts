@@ -27,7 +27,7 @@ export class NotionWebhook {
             },
           },
         });
-        logger.info(`Clear contact methods for page ${pageId}`);
+        logger.info(`Contact methods for page with name ${itemName} and id ${pageId} are cleared.`);
         return;
       }
 
@@ -46,7 +46,9 @@ export class NotionWebhook {
         };
       });
 
-      logger.info(`Contact methods generated for page id ${pageId}, data: ${JSON.stringify(contactMethods)}`);
+      logger.info(
+        `Contact methods generated for page with name ${itemName} and id ${pageId}, data: ${JSON.stringify(contactMethods)}`
+      );
 
       const response = await notion.pages.update({
         page_id: pageId,
@@ -62,9 +64,9 @@ export class NotionWebhook {
         return;
       }
 
-      logger.info(`Updated page with name ${itemName} and id ${pageId} with contact method(s).`);
+      logger.info(`Updated page with name "${itemName}" and id ${pageId} with contact method(s).`);
     } catch (error) {
-      logger.error(`Failed to update page ${pageId}: `, error);
+      logger.error(`Failed to update page with name ${itemName} and id ${pageId}. Error: `, error);
     }
   }
 }
