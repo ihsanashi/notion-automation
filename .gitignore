@@ -13,3 +13,5 @@ dist/
 
 # logs
 logs/
+
+.DS_Store
