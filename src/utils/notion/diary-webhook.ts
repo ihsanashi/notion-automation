@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
 import {
   BlockObjectRequest,
@@ -12,21 +12,20 @@ import { logger } from '@utils/logger';
 
 import { createNotionClient } from './client';
 
-dotenv.config();
-
 export class DiaryWebhook {
   private static notion = createNotionClient();
-  private static endavaDiariesDatabaseId =
-    process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
 
   /**
    * Query the most recent diary pages from the Notion database,
    * @returns the most recent page
    */
   static async getMostRecentDiary(): Promise<DatabaseObjectResponse | null> {
+    const endavaDiariesDatabaseId =
+      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
+
     try {
       const pages = await this.notion.databases.query({
-        database_id: this.endavaDiariesDatabaseId,
+        database_id: endavaDiariesDatabaseId,
         page_size: 5,
         sorts: [
           {
@@ -105,12 +104,14 @@ export class DiaryWebhook {
     params: Pick<CreatePageParameters, 'properties' | 'children'>
   ): Promise<CreatePageResponse | null> {
     const today = dayjs();
+    const endavaDiariesDatabaseId =
+      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
 
     try {
       const diary = await this.notion.pages.create({
         parent: {
           type: 'database_id',
-          database_id: this.endavaDiariesDatabaseId,
+          database_id: endavaDiariesDatabaseId,
         },
         properties: {
           ...params.properties,
@@ -140,6 +141,9 @@ export class DiaryWebhook {
    * Main function for creating today's diary entry
    */
   static async createTodaysTask(): Promise<void> {
+    const endavaDiariesDatabaseId =
+      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
+
     try {
       // 1. Get the most recent diary page
       const mostRecentDiary = await this.getMostRecentDiary();
@@ -171,13 +175,13 @@ export class DiaryWebhook {
 
       if (!todaysDiary?.object) {
         logger.error(
-          `Failed to create today's diary in database with id ${this.endavaDiariesDatabaseId}. Error: ${todaysDiary}`
+          `Failed to create today's diary in database with id ${endavaDiariesDatabaseId}. Error: ${todaysDiary}`
         );
         return;
       }
 
       logger.info(
-        `Created today's diary in database with id ${this.endavaDiariesDatabaseId} and page id ${todaysDiary.id}`
+        `Created today's diary in database with id ${endavaDiariesDatabaseId} and page id ${todaysDiary.id}`
       );
     } catch (error) {
       logger.error(`Error creating today's diary. Error: ${error}`);
