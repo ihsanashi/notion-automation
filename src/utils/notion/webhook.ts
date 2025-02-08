@@ -11,7 +11,8 @@ export class NotionWebhook {
     const { id: pageId, public_url, properties } = data;
 
     const titleProperty = properties['Name'];
-    const itemName = titleProperty.type === 'title' ? titleProperty.title[0].plain_text : '';
+    const itemName =
+      titleProperty.type === 'title' ? titleProperty.title[0].plain_text : '';
 
     const notion = createNotionClient();
 
@@ -27,7 +28,9 @@ export class NotionWebhook {
             },
           },
         });
-        logger.info(`Contact methods for page with name "${itemName}" and id ${pageId} are cleared.`);
+        logger.info(
+          `Contact methods for page with name "${itemName}" and id ${pageId} are cleared.`
+        );
         return;
       }
 
@@ -59,13 +62,20 @@ export class NotionWebhook {
       });
 
       if (!response.id) {
-        logger.error(`Failed to update page with name "${itemName}" and id ${pageId}.`);
+        logger.error(
+          `Failed to update page with name "${itemName}" and id ${pageId}.`
+        );
         return;
       }
 
-      logger.info(`Updated page with name "${itemName}" and id ${pageId} with contact method(s).`);
+      logger.info(
+        `Updated page with name "${itemName}" and id ${pageId} with contact method(s).`
+      );
     } catch (error) {
-      logger.error(`Failed to update page with name ${itemName} and id ${pageId}. Error: `, error);
+      logger.error(
+        `Failed to update page with name ${itemName} and id ${pageId}. Error: `,
+        error
+      );
     }
   }
 }
