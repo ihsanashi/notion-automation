@@ -1,5 +1,3 @@
-import { Request } from 'express';
-
 import { ChatService } from '@services/chat';
 
 import { logger } from '@utils/logger';
@@ -69,9 +67,5 @@ export class NotionWebhook {
     } catch (error) {
       logger.error(`Failed to update page with name ${itemName} and id ${pageId}. Error: `, error);
     }
-  }
-
-  static async createTodaysTask(req: Request) {
-    logger.info('still testing');
   }
 }
