@@ -9,7 +9,10 @@ import {
 type StringRequest = string;
 type TextRequest = string;
 
-export type ExternalFileBlock = Extract<FileBlockObjectResponse['file'], { type: 'external' }>;
+export type ExternalFileBlock = Extract<
+  FileBlockObjectResponse['file'],
+  { type: 'external' }
+>;
 
 export type WebhookPayload = {
   source: {
@@ -54,4 +57,18 @@ export type FileType = {
       }
   >;
   id: string;
+};
+
+export type UserContactRequestParam = {
+  name: string;
+  nickname: string | null;
+  email: string;
+  platform_name: string | null;
+  base_url: string | null;
+  identifier: string | null;
+};
+
+export type UserContactResponse = {
+  name: string;
+  external: { url: string };
 };
