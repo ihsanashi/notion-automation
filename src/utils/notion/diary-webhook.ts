@@ -14,18 +14,17 @@ import { createNotionClient } from './client';
 
 export class DiaryWebhook {
   private static notion = createNotionClient();
+  private static endavaDiariesDatabaseId =
+    process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
 
   /**
    * Query the most recent diary pages from the Notion database,
    * @returns the most recent page
    */
   static async getMostRecentDiary(): Promise<DatabaseObjectResponse> {
-    const endavaDiariesDatabaseId =
-      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
-
     try {
       const pages = await this.notion.databases.query({
-        database_id: endavaDiariesDatabaseId,
+        database_id: this.endavaDiariesDatabaseId,
         page_size: 5,
         sorts: [
           {
@@ -106,14 +105,12 @@ export class DiaryWebhook {
     params: Pick<CreatePageParameters, 'properties' | 'children'>
   ): Promise<CreatePageResponse> {
     const today = dayjs();
-    const endavaDiariesDatabaseId =
-      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
 
     try {
       const diary = await this.notion.pages.create({
         parent: {
           type: 'database_id',
-          database_id: endavaDiariesDatabaseId,
+          database_id: this.endavaDiariesDatabaseId,
         },
         properties: {
           ...params.properties,
@@ -132,10 +129,10 @@ export class DiaryWebhook {
 
       if (!diary) {
         logger.error(
-          `Failed to create a new page in database with id ${endavaDiariesDatabaseId}`
+          `Failed to create a new page in database with id ${this.endavaDiariesDatabaseId}`
         );
         throw new Error(
-          `Failed to create a new page in database with id ${endavaDiariesDatabaseId}`
+          `Failed to create a new page in database with id ${this.endavaDiariesDatabaseId}`
         );
       }
 
@@ -154,9 +151,6 @@ export class DiaryWebhook {
    * Main function for creating today's diary entry
    */
   static async createTodaysTask(): Promise<void> {
-    const endavaDiariesDatabaseId =
-      process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
-
     try {
       // 1. Get the most recent diary page
       const mostRecentDiary = await this.getMostRecentDiary();
@@ -188,13 +182,13 @@ export class DiaryWebhook {
 
       if (!todaysDiary?.object) {
         logger.error(
-          `Failed to create today's diary in database with id ${endavaDiariesDatabaseId}. Error: ${todaysDiary}`
+          `Failed to create today's diary in database with id ${this.endavaDiariesDatabaseId}. Error: ${todaysDiary}`
         );
         return;
       }
 
       logger.info(
-        `Created today's diary in database with id ${endavaDiariesDatabaseId} and page id ${todaysDiary.id}`
+        `Created today's diary in database with id ${this.endavaDiariesDatabaseId} and page id ${todaysDiary.id}`
       );
     } catch (error) {
       logger.error(`Error creating today's diary. Error: ${error}`);
