@@ -20,12 +20,17 @@ export class ContactWebhook {
   static async updatePage(
     pageId: string,
     properties: Pick<UpdatePageParameters, 'properties'>
-  ): Promise<UpdatePageResponse | null> {
+  ): Promise<UpdatePageResponse> {
     try {
       const res = await this.notion.pages.update({
         page_id: pageId,
         properties: properties as UpdatePageParameters['properties'],
       });
+
+      if (!res.object) {
+        logger.error(`Failed to update the page with id ${pageId}`);
+        throw new Error(`Failed to update the page with id ${pageId}`);
+      }
 
       logger.info(`Updated page with id ${pageId}`);
       return res;
@@ -33,7 +38,9 @@ export class ContactWebhook {
       logger.error(
         `Failed to call Notion's update page endpoint. Error: ${error}`
       );
-      return null;
+      throw new Error(
+        `Failed to call Notion's update page endpoint. Error: ${error}`
+      );
     }
   }
 
@@ -68,13 +75,19 @@ export class ContactWebhook {
       const users = await ChatService.getMatchedUsers(payload);
 
       if (users.length === 0) {
-        await this.updatePage(pageId, {
+        const res = await this.updatePage(pageId, {
           properties: {
             'Contact method(s)': {
               files: [],
             },
           },
         });
+
+        if (!res.object) {
+          logger.error(`Failed to update page with id ${pageId}`);
+          throw new Error(`Failed to update page with id ${pageId}`);
+        }
+
         logger.info(`Contact methods cleared for page with id ${pageId}`);
         return;
       }
@@ -100,7 +113,9 @@ export class ContactWebhook {
         logger.error(
           `Failed to update page with name "${itemName}" and id ${pageId}`
         );
-        return;
+        throw new Error(
+          `Failed to update page with name "${itemName}" and id ${pageId}`
+        );
       }
 
       logger.info(

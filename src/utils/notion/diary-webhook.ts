@@ -19,7 +19,7 @@ export class DiaryWebhook {
    * Query the most recent diary pages from the Notion database,
    * @returns the most recent page
    */
-  static async getMostRecentDiary(): Promise<DatabaseObjectResponse | null> {
+  static async getMostRecentDiary(): Promise<DatabaseObjectResponse> {
     const endavaDiariesDatabaseId =
       process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
 
@@ -39,7 +39,7 @@ export class DiaryWebhook {
         logger.error(
           'Failed to query the Work Diaries database or no pages found.'
         );
-        return null;
+        throw new Error('No diary pages found.');
       }
 
       return pages.results[0] as DatabaseObjectResponse;
@@ -47,7 +47,9 @@ export class DiaryWebhook {
       logger.error(
         `Error in calling the Notion database query endpoint. Error: ${error}`
       );
-      return null;
+      throw new Error(
+        `Error in calling the Notion database query endpoint. Error: ${error}`
+      );
     }
   }
 
@@ -75,9 +77,7 @@ export class DiaryWebhook {
   /**
    * Retrieve all blocks for a given page ID
    */
-  static async getDiaryBlocks(
-    pageId: string
-  ): Promise<BlockObjectRequest[] | null> {
+  static async getDiaryBlocks(pageId: string): Promise<BlockObjectRequest[]> {
     try {
       const blocks = await this.notion.blocks.children.list({
         block_id: pageId,
@@ -85,7 +85,7 @@ export class DiaryWebhook {
 
       if (!blocks.results) {
         logger.error(`Failed to fetch blocks for page ID ${pageId}`);
-        return null;
+        throw new Error(`Failed to fetch blocks for page ID ${pageId}`);
       }
 
       return blocks.results as BlockObjectRequest[];
@@ -93,7 +93,9 @@ export class DiaryWebhook {
       logger.error(
         `Error in calling Notion's retrieve block children endpoint. Error: ${error}`
       );
-      return null;
+      throw new Error(
+        `Error in calling Notion's retrieve block children endpoint. Error: ${error}`
+      );
     }
   }
 
@@ -102,7 +104,7 @@ export class DiaryWebhook {
    */
   static async createTodaysDiary(
     params: Pick<CreatePageParameters, 'properties' | 'children'>
-  ): Promise<CreatePageResponse | null> {
+  ): Promise<CreatePageResponse> {
     const today = dayjs();
     const endavaDiariesDatabaseId =
       process.env.ENDAVA_WORK_DIARIES_DATABASE_ID!;
@@ -128,12 +130,23 @@ export class DiaryWebhook {
         children: params.children,
       });
 
+      if (!diary) {
+        logger.error(
+          `Failed to create a new page in database with id ${endavaDiariesDatabaseId}`
+        );
+        throw new Error(
+          `Failed to create a new page in database with id ${endavaDiariesDatabaseId}`
+        );
+      }
+
       return diary;
     } catch (error) {
       logger.error(
         `Error in calling Notion's create page endpoint. Error: ${error}`
       );
-      return null;
+      throw new Error(
+        `Error in calling Notion's create page endpoint. Error: ${error}`
+      );
     }
   }
 
