@@ -114,16 +114,16 @@ export class DiaryWebhook {
         },
         properties: {
           ...params.properties,
-          Name: {
-            type: 'title',
-            title: [
-              {
-                text: {
-                  content: today.format('dddd, DD MMMM'),
-                },
-              },
-            ],
-          },
+          // Name: {
+          //   type: 'title',
+          //   title: [
+          //     {
+          //       text: {
+          //         content: today.format('dddd, DD MMMM'),
+          //       },
+          //     },
+          //   ],
+          // },
         },
         children: params.children,
       });
@@ -157,30 +157,22 @@ export class DiaryWebhook {
       const mostRecentDiary = await this.getMostRecentDiary();
       if (!mostRecentDiary) return;
 
-      logger.info('Step 1 success');
-
       // 2. Check if an entry for today already exists
       if (this.diaryExistsForToday(mostRecentDiary)) {
         logger.info('An entry for today already exists. Exiting early.');
         return;
       }
 
-      logger.info('Step 2 success');
-
       // 3. Get the blocks from the most recent diary
       const pageId = mostRecentDiary.id;
       const blocks = await this.getDiaryBlocks(pageId);
       if (!blocks) return;
-
-      logger.info('Step 3 success');
 
       // 4. Prepare properties for new diary entry
       const { properties } = mostRecentDiary;
       const newDiaryProperties = { ...properties };
       delete newDiaryProperties['Name'];
       delete newDiaryProperties['Created'];
-
-      logger.info('Step 4 success');
 
       // 5. Create today's diary page
       const params = {
@@ -196,8 +188,6 @@ export class DiaryWebhook {
         );
         return;
       }
-
-      logger.info('Step 5 success');
 
       logger.info(
         `Created today's diary in database with id ${this.endavaDiariesDatabaseId} and page id ${todaysDiary.id}`
