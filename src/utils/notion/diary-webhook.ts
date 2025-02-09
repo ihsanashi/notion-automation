@@ -115,6 +115,7 @@ export class DiaryWebhook {
         properties: {
           ...params.properties,
           Name: {
+            type: 'title',
             title: [
               {
                 text: {
