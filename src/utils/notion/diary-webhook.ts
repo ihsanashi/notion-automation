@@ -156,6 +156,8 @@ export class DiaryWebhook {
       const blocks = await this.getDiaryBlocks(pageId);
       if (!blocks) return;
 
+      logger.info(`blocks: ${JSON.stringify(blocks)}`);
+
       // 4. Prepare properties for new diary entry
       const { properties } = mostRecentDiary;
       const newDiaryProperties = { ...properties };
