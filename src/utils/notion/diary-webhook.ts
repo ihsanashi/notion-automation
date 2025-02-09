@@ -104,27 +104,13 @@ export class DiaryWebhook {
   static async createTodaysDiary(
     params: Pick<CreatePageParameters, 'properties' | 'children'>
   ): Promise<CreatePageResponse> {
-    const today = dayjs();
-
     try {
       const diary = await this.notion.pages.create({
         parent: {
           type: 'database_id',
           database_id: this.endavaDiariesDatabaseId,
         },
-        properties: {
-          Name: {
-            type: 'title',
-            title: [
-              {
-                text: {
-                  content: today.format('dddd, DD MMMM'),
-                },
-              },
-            ],
-          },
-          ...params.properties,
-        },
+        properties: params.properties,
         children: params.children,
       });
 
@@ -163,6 +149,8 @@ export class DiaryWebhook {
         return;
       }
 
+      logger.info(`mostRecentDiary: ${JSON.stringify(mostRecentDiary)}`);
+
       // 3. Get the blocks from the most recent diary
       const pageId = mostRecentDiary.id;
       const blocks = await this.getDiaryBlocks(pageId);
@@ -175,7 +163,7 @@ export class DiaryWebhook {
       delete newDiaryProperties['Created'];
       delete newDiaryProperties['Updated'];
 
-      logger.info(`${JSON.stringify(mostRecentDiary)}`);
+      logger.info(`newDiaryProperties: ${JSON.stringify(newDiaryProperties)}`);
 
       // 5. Create today's diary page
       const params = {
