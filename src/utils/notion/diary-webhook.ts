@@ -173,6 +173,7 @@ export class DiaryWebhook {
       const newDiaryProperties = { ...properties };
       delete newDiaryProperties['Name'];
       delete newDiaryProperties['Created'];
+      delete newDiaryProperties['Updated'];
 
       // 5. Create today's diary page
       const params = {
