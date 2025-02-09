@@ -113,17 +113,17 @@ export class DiaryWebhook {
           database_id: this.endavaDiariesDatabaseId,
         },
         properties: {
+          Name: {
+            type: 'title',
+            title: [
+              {
+                text: {
+                  content: today.format('dddd, DD MMMM'),
+                },
+              },
+            ],
+          },
           ...params.properties,
-          // Name: {
-          //   type: 'title',
-          //   title: [
-          //     {
-          //       text: {
-          //         content: today.format('dddd, DD MMMM'),
-          //       },
-          //     },
-          //   ],
-          // },
         },
         children: params.children,
       });
@@ -174,6 +174,8 @@ export class DiaryWebhook {
       delete newDiaryProperties['Name'];
       delete newDiaryProperties['Created'];
       delete newDiaryProperties['Updated'];
+
+      logger.info(`${JSON.stringify(mostRecentDiary)}`);
 
       // 5. Create today's diary page
       const params = {
