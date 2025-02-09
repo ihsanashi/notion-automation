@@ -194,6 +194,7 @@ export class DiaryWebhook {
       );
     } catch (error) {
       logger.error(`Error creating today's diary. Error: ${error}`);
+      throw new Error(`Error creating today's diary. Error: ${error}`);
     }
   }
 }
