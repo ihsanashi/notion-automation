@@ -121,7 +121,7 @@ export class DiaryWebhook {
       nameProp.title[0].plain_text = newTitle;
 
       logger.info(
-        `New diary page properties successfully formatted. Data: ${JSON.stringify(nameProp)}`
+        `New diary page properties successfully formatted. Data: ${JSON.stringify(newProps)}`
       );
 
       return newProps;
