@@ -9,7 +9,7 @@ import {
 } from '@notionhq/client/build/src/api-endpoints';
 
 import { logger } from '@utils/logger';
-import { NameProp } from '@utils/types';
+import { DateProp, NameProp } from '@utils/types';
 
 import { createNotionClient } from './client';
 
@@ -119,6 +119,9 @@ export class DiaryWebhook {
 
       nameProp.title[0].text.content = newTitle;
       nameProp.title[0].plain_text = newTitle;
+
+      const entryDateProp = newProps['Entry date'] as unknown as DateProp;
+      entryDateProp.date.start = today.format('YYYY-MM-DD');
 
       logger.info(
         `New diary page properties successfully formatted. Data: ${JSON.stringify(newProps)}`

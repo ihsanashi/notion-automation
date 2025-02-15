@@ -4,6 +4,7 @@ import {
   PartialUserObjectResponse,
   RichTextItemResponse,
   TextRichTextItemResponse,
+  TimeZoneRequest,
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 
@@ -78,4 +79,14 @@ export type NameProp = {
   type: 'title';
   id: string;
   title: Array<TextRichTextItemResponse>;
+};
+
+export type DateProp = {
+  type: 'date';
+  date: {
+    start: string;
+    end: string | null;
+    time_zone: TimeZoneRequest | null;
+  };
+  id: string;
 };
