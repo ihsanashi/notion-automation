@@ -9,6 +9,7 @@ import {
 } from '@notionhq/client/build/src/api-endpoints';
 
 import { logger } from '@utils/logger';
+import { NameProp } from '@utils/types';
 
 import { createNotionClient } from './client';
 
@@ -99,6 +100,42 @@ export class DiaryWebhook {
   }
 
   /**
+   * Format page properties
+   */
+  static formatNewDiaryPageProperties(
+    oldProperties: DatabaseObjectResponse['properties']
+  ): DatabaseObjectResponse['properties'] {
+    const today = dayjs();
+    const newProps = { ...oldProperties };
+
+    try {
+      // remove the read-only properties
+      delete newProps['Created'];
+      delete newProps['Updated'];
+
+      // Clone the Name property and cast the type
+      const nameProp = newProps['Name'] as unknown as NameProp;
+      const newTitle = today.format('dddd, DD MMMM');
+
+      nameProp.title[0].text.content = newTitle;
+      nameProp.title[0].plain_text = newTitle;
+
+      logger.info(
+        `New diary page properties successfully formatted. Data: ${JSON.stringify(nameProp)}`
+      );
+
+      return newProps;
+    } catch (error) {
+      logger.error(
+        `Failed to format new diary's page properties. Error: ${error}`
+      );
+      throw new Error(
+        `Failed to format new diary's page properties. Error: ${error}`
+      );
+    }
+  }
+
+  /**
    * Create a new diary page for today
    */
   static async createTodaysDiary(
@@ -114,7 +151,7 @@ export class DiaryWebhook {
         children: params.children,
       });
 
-      if (!diary) {
+      if (!diary.object) {
         logger.error(
           `Failed to create a new page in database with id ${this.endavaDiariesDatabaseId}`
         );
@@ -141,7 +178,6 @@ export class DiaryWebhook {
     try {
       // 1. Get the most recent diary page
       const mostRecentDiary = await this.getMostRecentDiary();
-      if (!mostRecentDiary) return;
 
       // 2. Check if an entry for today already exists
       if (this.diaryExistsForToday(mostRecentDiary)) {
@@ -160,12 +196,7 @@ export class DiaryWebhook {
 
       // 4. Prepare properties for new diary entry
       const { properties } = mostRecentDiary;
-      const newDiaryProperties = { ...properties };
-      delete newDiaryProperties['Name'];
-      delete newDiaryProperties['Created'];
-      delete newDiaryProperties['Updated'];
-
-      logger.info(`newDiaryProperties: ${JSON.stringify(newDiaryProperties)}`);
+      const newDiaryProperties = this.formatNewDiaryPageProperties(properties);
 
       // 5. Create today's diary page
       const params = {
@@ -174,13 +205,6 @@ export class DiaryWebhook {
       };
 
       const todaysDiary = await this.createTodaysDiary(params);
-
-      if (!todaysDiary?.object) {
-        logger.error(
-          `Failed to create today's diary in database with id ${this.endavaDiariesDatabaseId}. Error: ${todaysDiary}`
-        );
-        return;
-      }
 
       logger.info(
         `Created today's diary in database with id ${this.endavaDiariesDatabaseId} and page id ${todaysDiary.id}`

@@ -3,6 +3,7 @@ import {
   PageObjectResponse,
   PartialUserObjectResponse,
   RichTextItemResponse,
+  TextRichTextItemResponse,
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 
@@ -71,4 +72,10 @@ export type UserContactRequestParam = {
 export type UserContactResponse = {
   name: string;
   external: { url: string };
+};
+
+export type NameProp = {
+  type: 'title';
+  id: string;
+  title: Array<TextRichTextItemResponse>;
 };
