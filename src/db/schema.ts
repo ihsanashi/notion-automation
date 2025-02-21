@@ -1,4 +1,11 @@
-import { integer, pgTable, timestamp, unique, varchar } from 'drizzle-orm/pg-core';
+import {
+  integer,
+  jsonb,
+  pgTable,
+  timestamp,
+  unique,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -26,6 +33,7 @@ export const userPlatformsTable = pgTable(
       .notNull()
       .references(() => platformsTable.id),
     identifier: varchar({ length: 255 }).notNull(),
+    metadata: jsonb(),
     created_at: timestamp('created_at').notNull().defaultNow(),
     updated_at: timestamp('updated_at').notNull().defaultNow(),
   },

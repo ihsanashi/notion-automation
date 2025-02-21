@@ -15,6 +15,20 @@
       "when": 1738398726240,
       "tag": "0001_add-base-url-to-platforms",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740122015702,
+      "tag": "0002_thin_ezekiel_stane",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1740122661530,
+      "tag": "0003_useful_spyke",
+      "breakpoints": true
     }
   ]
 }
