@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import { eq, inArray } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/node-postgres';
 
 import { PersonUserObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
+import { db } from '@db/index';
 import * as schema from '@db/schema';
 
 import { logger } from '@utils/logger';
@@ -20,7 +20,10 @@ export class ChatService {
 
     const contactPersonBlock = properties['Contact person(s)'];
 
-    if (contactPersonBlock.type !== 'people' || !Array.isArray(contactPersonBlock.people)) {
+    if (
+      contactPersonBlock.type !== 'people' ||
+      !Array.isArray(contactPersonBlock.people)
+    ) {
       throw new Error('Invalid contact person format');
     }
 
@@ -30,7 +33,9 @@ export class ChatService {
     }
 
     const notionUserEmails = contactPersonBlock.people
-      .filter((user): user is PersonUserObjectResponse => user.object === 'user')
+      .filter(
+        (user): user is PersonUserObjectResponse => user.object === 'user'
+      )
       .map((user: PersonUserObjectResponse) => user.person.email)
       .filter((email): email is string => !!email);
 
@@ -39,7 +44,6 @@ export class ChatService {
       return [];
     }
 
-    const db = drizzle(process.env.DATABASE_URL!, { schema });
     const userContactMethods = await db
       .select({
         name: schema.usersTable.name,
@@ -50,8 +54,14 @@ export class ChatService {
         identifier: schema.userPlatformsTable.identifier,
       })
       .from(schema.usersTable)
-      .leftJoin(schema.userPlatformsTable, eq(schema.usersTable.id, schema.userPlatformsTable.user_id))
-      .leftJoin(schema.platformsTable, eq(schema.userPlatformsTable.platform_id, schema.platformsTable.id))
+      .leftJoin(
+        schema.userPlatformsTable,
+        eq(schema.usersTable.id, schema.userPlatformsTable.user_id)
+      )
+      .leftJoin(
+        schema.platformsTable,
+        eq(schema.userPlatformsTable.platform_id, schema.platformsTable.id)
+      )
       .where(inArray(schema.usersTable.email, notionUserEmails));
 
     return userContactMethods;
