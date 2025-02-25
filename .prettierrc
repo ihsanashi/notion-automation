@@ -9,6 +9,7 @@
     "^@notionhq",
     "^@config/(.*)$",
     "^@controllers/(.*)$",
+    "^@cron/(.*)$",
     "^@db/(.*)$",
     "^@models/(.*)$",
     "^@routes/(.*)$",

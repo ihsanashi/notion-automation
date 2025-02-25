@@ -16,10 +16,12 @@
   "license": "ISC",
   "dependencies": {
     "@notionhq/client": "^2.2.15",
+    "cron": "^3.5.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.1",
     "express": "^4.21.2",
+    "grammy": "^1.35.0",
     "pg": "^8.13.1",
     "winston": "^3.17.0"
   },
