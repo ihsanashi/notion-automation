@@ -1,12 +1,10 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import express, { Express, Request, Response } from 'express';
 
 import chatRoutes from '@routes/chat';
 import diaryRoutes from '@routes/diary';
 
 import { logger } from '@utils/logger';
-
-dotenv.config();
 
 const app: Express = express();
 app.use(express.json());
