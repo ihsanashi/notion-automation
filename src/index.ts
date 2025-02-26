@@ -1,8 +1,6 @@
 import 'dotenv/config';
 import express, { Express, Request, Response } from 'express';
 
-import { FinanceTrackerCronjob } from '@cron/finance-tracker';
-
 import chatRoutes from '@routes/chat';
 import diaryRoutes from '@routes/diary';
 
@@ -22,6 +20,4 @@ app.use('/diary', diaryRoutes);
 
 app.listen(port, () => {
   logger.info(`[server]: Server is running on port ${port}`);
-
-  FinanceTrackerCronjob.main();
 });
