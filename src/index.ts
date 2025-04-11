@@ -11,13 +11,13 @@ app.use(express.json());
 
 if (!process.env.NOTION_API_KEY) {
   logger.warn('NOTION_API_KEY is missing from environment variables!');
-  // Consider throwing an error or handling this more gracefully if critical at startup
 }
+
 if (!process.env.ENDAVA_WORK_DIARIES_DATABASE_ID) {
   logger.warn('ENDAVA_WORK_DIARIES_DATABASE_ID is missing!');
 }
 
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express v5.0 + TypeScript server');
@@ -26,8 +26,8 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/chat', chatRoutes);
 app.use('/diary', diaryRoutes);
 
-// app.listen(port, () => {
-//   logger.info(`[server]: Server is running on port ${port}`);
-// });
+app.listen(port, () => {
+  logger.info(`[server]: Server is running on port ${port}`);
+});
 
 export default app;
