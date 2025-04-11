@@ -9,7 +9,6 @@
     "vercel-build": "echo hello",
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
-    "migrate": "drizzle-kit migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,7 +19,6 @@
     "cron": "^3.5.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.39.1",
     "express": "^4.21.2",
     "grammy": "^1.35.0",
     "pg": "^8.13.1",
@@ -32,7 +30,6 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.10",
     "@types/pg": "^8.11.11",
-    "drizzle-kit": "^0.30.4",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
@@ -43,5 +40,5 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "pnpm@10.8.0+sha512.0e82714d1b5b43c74610193cb20734897c1d00de89d0e18420aebc5977fa13d780a9cb05734624e81ebd81cc876cd464794850641c48b9544326b5622ca29971"
 }
